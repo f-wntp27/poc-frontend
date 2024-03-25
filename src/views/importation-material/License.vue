@@ -7,6 +7,7 @@ import { useAppStore } from '@/stores/app.store';
 import { toastMsg } from '@/utils/notification';
 import { useVuelidate } from '@vuelidate/core';
 import { required, minValue } from '@vuelidate/validators';
+import { numberWithComma } from '@/utils';
 
 const httpService = useHttpService();
 const appStore = useAppStore();
@@ -277,7 +278,11 @@ function onRemove(data: ImporttationDrugMatResquestModel, idx: number) {
           </template>
         </Column>
         <Column field="materialName" header="ชื่อวัตถุดิบยา" bodyClass="text-center" headerClass="text-center"></Column>
-        <Column field="materialAmount" header="จำนวน" bodyClass="text-center" headerClass="text-center"></Column>
+        <Column field="materialAmount" header="จำนวน" bodyClass="text-center" headerClass="text-center">
+          <template #body="{ data }">
+            {{ numberWithComma(String(data.materialAmount), 1) }}
+          </template>
+        </Column>
         <Column field="materialUnit" header="หน่วย" bodyClass="text-center" headerClass="text-center"> </Column>
         <Column header="แอคชั่น" bodyClass="text-center" headerClass="text-center" style="width: 20rem">
           <template #body="{ data, index }">

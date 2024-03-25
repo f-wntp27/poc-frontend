@@ -16,6 +16,7 @@ type ImportationDragReqStatusModel = {
   rejectedDate: string;
   rejectedBy: string;
   rejectedReason: string;
+  currentState: string;
   createdBy: string;
   createdDate: string;
   updatedBy: string;
@@ -48,6 +49,8 @@ const StatusApprove: { [key: string]: { severity: string; value: string; icon: s
   approved: { severity: 'success', value: 'อนุมัติ', icon: 'mdi mdi-check-circle-outline' },
   rejected: { severity: 'danger', value: 'ไม่อนุมัติ', icon: 'mdi mdi-close' },
   waiting_for_approve: { severity: 'info', value: 'รอการอนุมัติ', icon: 'mdi mdi-clock-time-three-outline' },
+  fda_approve: { severity: 'info', value: 'อย. แสดงความคิดเห็น', icon: 'mdi mdi-clock-time-three-outline' },
+  excise_approve: { severity: 'info', value: 'กรมสรรพสามิตอนุมัติ', icon: 'mdi mdi-clock-time-three-outline' },
 };
 
 const tableFields = ref([
@@ -110,13 +113,13 @@ async function onAction(data: ImportationDragReqStatusModel) {
   <PageLayout nameHeader="สถานะการขออนุมัติใบอนุญาต">
     <MyDataTable ref="mdt" :fields="tableFields" :searchFunction="getDataList">
       <Column header="สถานะ" bodyClass="text-center" headerClass="text-center" style="width: 20rem">
-        <template #body="slotProps">
+        <template #body="{ data }">
           <Tag
             class="shadow-4 border-round-lg font-bold"
-            :icon="StatusApprove[slotProps.data.status].icon"
-            :severity="StatusApprove[slotProps.data.status].severity"
-            :value="StatusApprove[slotProps.data.status].value"
-            v-tooltip.top="StatusApprove[slotProps.data.status].value"
+            :icon="StatusApprove[data.currentState].icon"
+            :severity="StatusApprove[data.currentState].severity"
+            :value="StatusApprove[data.currentState].value"
+            v-tooltip.top="StatusApprove[data.currentState].value"
           >
           </Tag>
         </template>
@@ -194,19 +197,19 @@ async function onAction(data: ImportationDragReqStatusModel) {
         <div class="flex col-auto text-lg">
           <Tag
             class="shadow-4 border-round-lg font-bold"
-            :icon="StatusApprove[dataModal!.status].icon"
-            :severity="StatusApprove[dataModal!.status].severity"
-            :value="StatusApprove[dataModal!.status].value"
+            :icon="StatusApprove[dataModal!.currentState].icon"
+            :severity="StatusApprove[dataModal!.currentState].severity"
+            :value="StatusApprove[dataModal!.currentState].value"
           >
           </Tag>
           &nbsp;
-          <div v-if="dataModal!.status === 'waiting_for_approve'" style="margin-top: 8px; font-size: 14px">
+          <!-- <div v-if="dataModal!.status === 'waiting_for_approve'" style="margin-top: 8px; font-size: 14px">
             {{
               dataModal!.importationDrugReqStates[dataModal!.importationDrugReqStates.length - 1].state === 'submitted'
                 ? '(อย.)'
                 : '(กรมสรรพสามิต)'
             }}
-          </div>
+          </div> -->
         </div>
       </div>
 

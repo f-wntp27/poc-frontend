@@ -136,7 +136,7 @@ async function onSumbit() {
             </div>
           </div>
 
-          <div class="block md:flex align-items-center mb-5">
+          <div class="block md:flex align-items-start mb-5">
             <div class="md:col-3">
               <label class="text-900 text-xl font-bold">แสดงความคิดเห็น : &nbsp;</label>
             </div>

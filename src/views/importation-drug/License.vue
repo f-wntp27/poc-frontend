@@ -7,10 +7,12 @@ import { useAppStore } from '@/stores/app.store';
 import { toastMsg } from '@/utils/notification';
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
+import { useRouter } from 'vue-router';
 
 const httpService = useHttpService();
 const appStore = useAppStore();
 const toast = toastMsg();
+const router = useRouter();
 
 const form = reactive<ImporttationDrugResquestModel>({
   drugName: '',
@@ -65,6 +67,7 @@ async function onSubmitForm() {
           toast.success('ยืนยันการขอใบขออนุญาตนำเข้ายาสำเร็จแล้ว');
           clearForm();
           appStore.isLoading.value = false;
+          router.push({ name: 'license-status-log' });
         })
         .catch((error) => {
           toast.error(error.response.data.errors);

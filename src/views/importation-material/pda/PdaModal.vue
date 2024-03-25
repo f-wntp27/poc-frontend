@@ -180,7 +180,11 @@ async function onSumbit() {
             bodyClass="text-center"
             headerClass="text-center"
           ></Column>
-          <Column field="materialAmount" header="จำนวน" bodyClass="text-center" headerClass="text-center"></Column>
+          <Column field="materialAmount" header="จำนวน" bodyClass="text-center" headerClass="text-center">
+            <template #body="{ data }">
+              {{ numberWithComma(String(data.materialAmount)) }}
+            </template>
+          </Column>
           <Column field="materialUnit" header="หน่วย" bodyClass="text-center" headerClass="text-center"> </Column>
 
           <template #empty>

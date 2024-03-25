@@ -6,6 +6,7 @@ import { numberWithComma, downloadFile, transferFileSize } from '@/utils';
 import { useHttpService } from '@/services/http.services';
 import { useAppStore } from '@/stores/app.store';
 import Swal from 'sweetalert2';
+import { useRouter } from 'vue-router';
 
 const props = defineProps({
   open: { type: Boolean, default: false, required: true },
@@ -17,6 +18,7 @@ const props = defineProps({
 const httpService = useHttpService();
 const appStore = useAppStore();
 const rejectReason = ref('');
+const router = useRouter();
 
 const emit = defineEmits<{
   'update:open': [value: boolean];
@@ -54,7 +56,8 @@ async function onSumbit() {
       }).then(async (isConfirm) => {
         if (isConfirm) {
           emit('update:open', false);
-          await props.datatableRef?.search();
+          // await props.datatableRef?.search();
+          router.push({ name: 'license-status-log' });
         }
       });
     })

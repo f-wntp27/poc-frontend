@@ -117,3 +117,10 @@ export function transferFileSize(size: number) {
     return numberWithComma(size / SIZE_1MB) + ' MB';
   }
 }
+
+export function ellipsis(text: string, wordDigit = 30) {
+  if (!text) {
+    return;
+  }
+  return text.length > wordDigit ? text.slice(0, wordDigit).concat('...') : text;
+}

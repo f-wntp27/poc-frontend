@@ -4,6 +4,7 @@ import { useHttpService } from '@/services/http.services';
 import type { ImporttationDrugResponseModel, DatatableRef } from '@/models';
 import { useAppStore } from '@/stores/app.store';
 import moment from 'moment';
+import { ellipsis } from '@/utils';
 
 type ImportationDragReqStatusModel = {
   id: string;
@@ -19,6 +20,7 @@ type ImportationDragReqStatusModel = {
   createdDate: string;
   updatedBy: string;
   updatedDate: string;
+  licenseNo: string;
   importationDrugReqStates: {
     id: string;
     state: string;
@@ -55,6 +57,7 @@ const tableFields = ref([
     type: 'string',
     headerClass: 'text-center w-30rem',
   },
+
   {
     field: 'drugName',
     label: 'ชื่อยา',
@@ -101,13 +104,6 @@ async function onAction(data: ImportationDragReqStatusModel) {
   visible.value = true;
   await appStore.preLoading(200);
 }
-
-function ellipsis(text: string, wordDigit = 30) {
-  if (!text) {
-    return;
-  }
-  return text.length > wordDigit ? text.slice(0, wordDigit).concat('...') : text;
-}
 </script>
 
 <template>
@@ -130,6 +126,14 @@ function ellipsis(text: string, wordDigit = 30) {
         <template #body="slotProps">
           <div v-tooltip.top="slotProps.data.rejectedReason">
             {{ ellipsis(slotProps.data.rejectedReason) ?? '-' }}
+          </div>
+        </template>
+      </Column>
+
+      <Column header="เลขที่ใบอนุญาต" bodyClass="text-center" headerClass="text-center" style="width: 20rem">
+        <template #body="{ data }">
+          <div v-tooltip.top="data.licenseNo">
+            {{ ellipsis(data.licenseNo) ?? '-' }}
           </div>
         </template>
       </Column>
@@ -164,6 +168,15 @@ function ellipsis(text: string, wordDigit = 30) {
           <span class="text-2xl font-bold">ทามไลน์</span>
         </div>
       </template>
+
+      <div class="flex align-items-center">
+        <div class="md:col-2">
+          <label class="font-bold text-lg">เลขที่ใบอนุญาต : &nbsp;</label>
+        </div>
+        <div class="col-auto text-lg">
+          <span>{{ dataModal!.licenseNo || '-' }}</span>
+        </div>
+      </div>
 
       <div class="flex align-items-center">
         <div class="md:col-2">

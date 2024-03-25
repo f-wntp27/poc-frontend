@@ -5,6 +5,7 @@ import type { ImporttationDrugExciseResponseModel, DatatableRef } from '@/models
 import { StatusApprove } from '@/constant';
 import { useAppStore } from '@/stores/app.store';
 import ExciseModal from './ExciseModal.vue';
+import { ellipsis } from '@/utils';
 
 const appStore = useAppStore();
 const openApprove = ref(false);
@@ -37,12 +38,6 @@ const tableFields = ref([
     type: 'string',
     headerClass: 'text-center',
   },
-  {
-    field: 'fdaComment',
-    label: 'ความคิดเห็น',
-    type: 'string',
-    headerClass: 'text-center',
-  },
 ]);
 
 async function getDataList() {
@@ -66,6 +61,14 @@ async function onAction(data: ImporttationDrugExciseResponseModel, operation: St
       <Button icon="mdi mdi-magnify" class="p-button-sm ms-2 shadow-4 mx-1" label="ค้นหา" />
     </div> -->
     <MyDataTable ref="mdt" :fields="tableFields" :searchFunction="getDataList">
+      <Column header="ความคิดเห็น" bodyClass="text-center" headerClass="text-center" style="width: 30rem">
+        <template #body="{ data }">
+          <div v-tooltip.top="data.fdaComment">
+            {{ ellipsis(data.fdaComment, 50) ?? '-' }}
+          </div>
+        </template>
+      </Column>
+
       <Column header="แอคชั่น" bodyClass="text-center" headerClass="text-center" style="width: 20rem">
         <template #body="slotProps">
           <Button

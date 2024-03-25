@@ -64,11 +64,12 @@ async function onSubmitForm() {
         .then(() => {
           toast.success('ยืนยันการขอใบขออนุญาตนำเข้ายาสำเร็จแล้ว');
           clearForm();
+          appStore.isLoading.value = false;
         })
         .catch((error) => {
           toast.error(error.response.data.errors);
+          appStore.isLoading.value = false;
         });
-      appStore.isLoading.value = false;
     }
   });
 }

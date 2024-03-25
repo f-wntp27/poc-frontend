@@ -64,6 +64,7 @@ async function onSumbit() {
         title: 'เกิดข้อผิดพลาด',
         text: error,
       });
+      appStore.isLoading.value = false;
     });
 }
 </script>
@@ -182,7 +183,12 @@ async function onSumbit() {
               class="text-lg"
               @click="onSumbit"
             />
-            <Button label="ยกเลิก" class="text-lg bg-red-500" severity="danger" @click="() => emit('update:open', false)" />
+            <Button
+              label="ยกเลิก"
+              class="text-lg bg-red-500"
+              severity="danger"
+              @click="() => emit('update:open', false)"
+            />
           </div>
         </div>
       </Dialog>

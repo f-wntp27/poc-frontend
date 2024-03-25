@@ -84,11 +84,12 @@ async function onSubmitForm() {
           license.licenseNo = '';
           formList.value = [];
           clearForm();
+          appStore.isLoading.value = false;
         })
         .catch((error) => {
           toast.error(error.response.data.errors);
+          appStore.isLoading.value = false;
         });
-      appStore.isLoading.value = false;
     }
   });
 }

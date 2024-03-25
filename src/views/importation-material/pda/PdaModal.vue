@@ -64,6 +64,7 @@ async function onSumbit() {
         title: 'เกิดข้อผิดพลาด',
         text: error,
       });
+      appStore.isLoading.value = false;
     });
 }
 </script>

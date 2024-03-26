@@ -36,6 +36,7 @@ const MapStatus: { [key: string]: { title: string; icon: string; color: string }
   submitted: { title: 'ขอใบอนุญาตนำเข้ายา', icon: 'mdi mdi-circle-slice-8', color: '#9BB0C1' },
   fda_approve: { title: 'อย. แสดงความคิดเห็นใบอนุญาตนำเข้ายา', icon: 'mdi mdi-circle-slice-8', color: '#00338D' },
   excise_approve: { title: 'กรมสรรพสามิตอนุมัติใบอนุญาตนำเข้ายา', icon: 'mdi mdi-circle-slice-8', color: '#00338D' },
+  creating_license: { title: 'กำลังสร้างเลขที่ใบอนุญาต', icon: 'mdi mdi-circle-slice-8', color: 'rgb(245, 158, 11)' },
   completed_approved: { title: 'อนุมัติ', icon: 'mdi mdi-circle-slice-8', color: '#00A371' },
   completed_rejected: { title: 'ไม่อนุมัติ', icon: 'mdi mdi-circle-slice-8', color: '#E41D3D' },
 };

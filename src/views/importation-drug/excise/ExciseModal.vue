@@ -57,7 +57,7 @@ async function onSumbit() {
         if (isConfirm) {
           emit('update:open', false);
           // await props.datatableRef?.search();
-          router.push({ name: 'license-status-log' });
+          router.push({ name: 'license-drug-status-log' });
         }
       });
     })
@@ -93,7 +93,7 @@ async function onSumbit() {
         <div class="w-full flex flex-column">
           <div class="block md:flex align-items-center mb-5">
             <div class="md:col-3">
-              <label class="text-900 text-xl font-bold">Request ID : &nbsp;</label>
+              <label class="text-xl font-bold">Request ID : &nbsp;</label>
             </div>
             <div class="col-auto text-xl">
               <span>{{ props.data!.reqId }}</span>
@@ -102,7 +102,7 @@ async function onSumbit() {
 
           <div class="block md:flex align-items-center mb-5">
             <div class="md:col-3">
-              <label class="text-900 text-xl font-bold">ชื่อยา : &nbsp;</label>
+              <label class="text-xl font-bold">ชื่อยา : &nbsp;</label>
             </div>
             <div class="col-auto text-xl font-light">
               {{ props.data!.drugName || '-' }}
@@ -111,7 +111,7 @@ async function onSumbit() {
 
           <div class="block md:flex align-items-center mb-5">
             <div class="md:col-3">
-              <label class="text-900 text-xl font-bold">ส่วนประกอบ : &nbsp;</label>
+              <label class="text-xl font-bold">ส่วนประกอบ : &nbsp;</label>
             </div>
 
             <div class="col-auto text-xl font-light">
@@ -121,7 +121,7 @@ async function onSumbit() {
 
           <div class="block md:flex align-items-center mb-5">
             <div class="md:col-3">
-              <label class="text-900 text-xl font-bold">ราคาขาย : &nbsp;</label>
+              <label class="text-xl font-bold">ราคาขาย : &nbsp;</label>
             </div>
 
             <div class="col-auto text-xl font-light">
@@ -131,7 +131,7 @@ async function onSumbit() {
 
           <div class="block md:flex align-items-center mb-5">
             <div class="md:col-3">
-              <label class="text-900 text-xl font-bold">หน่วย : &nbsp;</label>
+              <label class="text-xl font-bold">หน่วย : &nbsp;</label>
             </div>
 
             <div class="col-auto text-xl font-light">
@@ -141,16 +141,16 @@ async function onSumbit() {
 
           <div class="block md:flex align-items-start mb-5">
             <div class="md:col-3">
-              <label class="text-900 text-xl font-bold">แสดงความคิดเห็น : &nbsp;</label>
+              <label class="text-xl font-bold">แสดงความคิดเห็น : &nbsp;</label>
             </div>
 
-            <div class="col-auto text-xl font-light">
+            <div class="col-auto text-xl font-light py-2">
               {{ props.data?.fdaComment || '-' }}
             </div>
           </div>
           <div class="block md:flex align-items-start mb-5">
             <div class="md:col-3">
-              <label class="text-900 text-xl font-bold">ไฟล์ : &nbsp;</label>
+              <label class="text-xl font-bold">ไฟล์ : &nbsp;</label>
             </div>
 
             <div class="flex flex-wrap col-auto text-lg pt-2">
@@ -172,7 +172,7 @@ async function onSumbit() {
 
           <div class="block md:flex align-items-start mb-5" v-if="action === StatusApprove.REJECT">
             <div class="md:col-3">
-              <label class="text-900 text-xl font-bold">เหตุผล : &nbsp;</label>
+              <label class="text-xl font-bold">เหตุผล : &nbsp;</label>
             </div>
 
             <div class="col-auto text-2xl">

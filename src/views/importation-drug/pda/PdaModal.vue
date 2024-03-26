@@ -45,7 +45,7 @@ async function onSumbit() {
   formData.append('taskId', props.data!.taskId);
   formData.append('approveStatus', props.action.toLowerCase());
   if (props.action.toLowerCase() === StatusApprove.APPROVE.toLowerCase()) {
-    formData.append('fdafdaComment', fdaComment.value);
+    formData.append('fdaComment', fdaComment.value);
     filelist.value.forEach((file) => {
       formData.append('files', file, file.name);
     });

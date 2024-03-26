@@ -67,7 +67,7 @@ async function onSubmitForm() {
           toast.success('ยืนยันการขอใบขออนุญาตนำเข้ายาสำเร็จแล้ว');
           clearForm();
           appStore.isLoading.value = false;
-          router.push({ name: 'license-status-log' });
+          router.push({ name: 'license-drug-status-log' });
         })
         .catch((error) => {
           toast.error(error.response.data.errors);

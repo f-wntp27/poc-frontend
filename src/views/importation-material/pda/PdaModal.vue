@@ -89,7 +89,7 @@ async function onSumbit() {
       <div class="w-full flex flex-column">
         <div class="block md:flex align-items-center">
           <div class="md:col-3">
-            <label class="text-900 text-lg font-bold">เลขใบอนุญาต : &nbsp;</label>
+            <label class="text-lg font-bold">เลขใบอนุญาต : &nbsp;</label>
           </div>
           <div class="col-auto text-lg flex align-items-center gap-3">
             <span>{{ props.data!.licenseNo || '-' }}</span>
@@ -110,7 +110,7 @@ async function onSumbit() {
 
         <div class="block md:flex align-items-center">
           <div class="md:col-3">
-            <label class="text-900 text-lg font-bold">Request ID : &nbsp;</label>
+            <label class="text-lg font-bold">Request ID : &nbsp;</label>
           </div>
           <div class="col-auto text-lg">
             <span>{{ props.data!.reqId || '-' }}</span>
@@ -119,7 +119,7 @@ async function onSumbit() {
 
         <div class="block md:flex align-items-center">
           <div class="md:col-3">
-            <label class="text-900 text-lg font-bold">ชื่อยา : &nbsp;</label>
+            <label class="text-lg font-bold">ชื่อยา : &nbsp;</label>
           </div>
           <div class="col-auto text-lg font-light">
             {{ props.data!.drugName || '-' }}
@@ -128,7 +128,7 @@ async function onSumbit() {
 
         <div class="block md:flex align-items-center">
           <div class="md:col-3">
-            <label class="text-900 text-lg font-bold">ส่วนประกอบ : &nbsp;</label>
+            <label class="text-lg font-bold">ส่วนประกอบ : &nbsp;</label>
           </div>
 
           <div class="col-auto text-lg font-light">
@@ -138,7 +138,7 @@ async function onSumbit() {
 
         <div class="block md:flex align-items-center">
           <div class="md:col-3">
-            <label class="text-900 text-lg font-bold">ราคาขาย : &nbsp;</label>
+            <label class="text-lg font-bold">ราคาขาย : &nbsp;</label>
           </div>
 
           <div class="col-auto text-lg font-light">
@@ -148,7 +148,7 @@ async function onSumbit() {
 
         <div class="block md:flex align-items-center">
           <div class="md:col-3">
-            <label class="text-900 text-lg font-bold">หน่วย : &nbsp;</label>
+            <label class="text-lg font-bold">หน่วย : &nbsp;</label>
           </div>
 
           <div class="col-auto text-lg font-light">
@@ -158,7 +158,7 @@ async function onSumbit() {
 
         <div class="block md:flex align-items-center" v-if="data!.details.length > 0">
           <div class="md:col-3">
-            <label class="text-900 text-lg font-bold">วัตถุดิบยา : &nbsp;</label>
+            <label class="text-lg font-bold">วัตถุดิบยา : &nbsp;</label>
           </div>
         </div>
 
@@ -201,7 +201,7 @@ async function onSumbit() {
         <template v-if="action === StatusApprove.REJECT">
           <div class="block md:flex align-items-start">
             <div class="md:col-3">
-              <label class="text-900 text-lg font-bold">เหตุผล : &nbsp;</label>
+              <label class="text-lg font-bold">เหตุผล : &nbsp;</label>
             </div>
 
             <div class="col-auto text-2xl">

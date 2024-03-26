@@ -8,10 +8,12 @@ import { toastMsg } from '@/utils/notification';
 import { useVuelidate } from '@vuelidate/core';
 import { required, minValue } from '@vuelidate/validators';
 import { numberWithComma } from '@/utils';
+import { useRouter } from 'vue-router';
 
 const httpService = useHttpService();
 const appStore = useAppStore();
 const toast = toastMsg();
+const router = useRouter();
 
 const license = reactive({ licenseNo: '' });
 // const foundLicense = ref();
@@ -86,6 +88,7 @@ async function onSubmitForm() {
           formList.value = [];
           clearForm();
           appStore.isLoading.value = false;
+          router.push({ name: 'license-materia-status-log' });
         })
         .catch((error) => {
           toast.error(error.response.data.errors);

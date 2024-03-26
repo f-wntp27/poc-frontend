@@ -42,23 +42,28 @@ export const menuList: MenuModel[] = [
   //   path: '/excise-approve-material',
   // },
   {
-    label: 'สถานะการขออนุมัติใบอนุญาต',
+    label: 'สถานะการขออนุมัติใบอนุญาตนำเข้ายา',
     icon: 'mdi mdi-list-status',
-    path: '/license-status-log',
+    path: '/license-drug-status-log',
+  },
+  {
+    label: 'สถานะการขออนุมัติใบอนุญาตนำเข้าวัตถุดิบยา',
+    icon: 'mdi mdi-list-status',
+    path: '/license-materia-status-log',
   },
   // {
-  //   label: 'TEST Children',
-  //   icon: 'pi pi-palette',
+  //   label: 'สถานะ',
+  //   icon: 'mdi mdi-list-status',
   //   children: [
   //     {
-  //       label: 'Test 1',
-  //       icon: 'pi pi-eraser',
-  //       path: '/',
+  //       label: 'การขออนุมัติใบอนุญาตนำเข้ายา',
+  //       icon: 'mdi mdi-list-status',
+  //       path: '/license-drug-status-log',
   //     },
   //     {
-  //       label: 'Test 2',
-  //       icon: 'pi pi-heart',
-  //       path: '/',
+  //       label: 'การขออนุมัติใบอนุญาตนำเข้าวัตถุดิบยา',
+  //       icon: 'mdi mdi-list-status',
+  //       path: '/license-materia-status-log',
   //     },
   //   ],
   // },

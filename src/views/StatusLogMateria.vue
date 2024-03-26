@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useHttpService } from '@/services/http.services';
-import type { ImporttationDrugResponseModel, DatatableRef } from '@/models';
+import type { ImporttationDrugResponseModel, ImporttationDrugMatResquestModel, DatatableRef } from '@/models';
 import { useAppStore } from '@/stores/app.store';
 import moment from 'moment';
-import { ellipsis } from '@/utils';
+import { ellipsis, numberWithComma } from '@/utils';
 
 type ImportationDragReqStatusModel = {
   id: string;
@@ -22,7 +22,9 @@ type ImportationDragReqStatusModel = {
   updatedBy: string;
   updatedDate: string;
   licenseNo: string;
-  importationDrugReqStates: {
+  importationDrugsId: string;
+  details: ImporttationDrugMatResquestModel[];
+  states: {
     id: string;
     state: string;
     createdBy: string;
@@ -33,9 +35,9 @@ type ImportationDragReqStatusModel = {
 };
 
 const MapStatus: { [key: string]: { title: string; icon: string; color: string } } = {
-  submitted: { title: 'ขอใบอนุญาตนำเข้ายา', icon: 'mdi mdi-circle-slice-8', color: '#9BB0C1' },
-  fda_approve: { title: 'อย. แสดงความคิดเห็นใบอนุญาตนำเข้ายา', icon: 'mdi mdi-circle-slice-8', color: '#00338D' },
-  excise_approve: { title: 'กรมสรรพสามิตอนุมัติใบอนุญาตนำเข้ายา', icon: 'mdi mdi-circle-slice-8', color: '#00338D' },
+  submitted: { title: 'ขอใบอนุญาตนำเข้าวัตถุดิบยา', icon: 'mdi mdi-circle-slice-8', color: '#9BB0C1' },
+  fda_approve: { title: 'อย. อนุมัติใบอนุญาตนำเข้าวัตถุดิบยา', icon: 'mdi mdi-circle-slice-8', color: '#00338D' },
+  // excise_approve: { title: 'กรมสรรพสามิตอนุมัติใบอนุญาตนำเข้าวัตถุดิบยา', icon: 'mdi mdi-circle-slice-8', color: '#00338D' },
   completed_approved: { title: 'อนุมัติ', icon: 'mdi mdi-circle-slice-8', color: '#00A371' },
   completed_rejected: { title: 'ไม่อนุมัติ', icon: 'mdi mdi-circle-slice-8', color: '#E41D3D' },
 };
@@ -48,9 +50,9 @@ const visible = ref(false);
 const StatusApprove: { [key: string]: { severity: string; value: string; icon: string } } = {
   approved: { severity: 'success', value: 'อนุมัติ', icon: 'mdi mdi-check-circle-outline' },
   rejected: { severity: 'danger', value: 'ไม่อนุมัติ', icon: 'mdi mdi-close' },
-  waiting_for_approve: { severity: 'info', value: 'รอการอนุมัติ', icon: 'mdi mdi-clock-time-three-outline' },
-  fda_approve: { severity: 'info', value: 'อย. แสดงความคิดเห็น', icon: 'mdi mdi-clock-time-three-outline' },
-  excise_approve: { severity: 'info', value: 'กรมสรรพสามิตอนุมัติ', icon: 'mdi mdi-clock-time-three-outline' },
+  // waiting_for_approve: { severity: 'info', value: 'รอการอนุมัติ', icon: 'mdi mdi-clock-time-three-outline' },
+  fda_approve: { severity: 'info', value: 'อย. อนุมัติ', icon: 'mdi mdi-clock-time-three-outline' },
+  // excise_approve: { severity: 'info', value: 'กรมสรรพสามิตอนุมัติ', icon: 'mdi mdi-clock-time-three-outline' },
 };
 
 const tableFields = ref([
@@ -60,23 +62,9 @@ const tableFields = ref([
     type: 'string',
     headerClass: 'text-center w-30rem',
   },
-
-  {
-    field: 'drugName',
-    label: 'ชื่อยา',
-    // label: 'ประเภทใบอนุญาตนำเข้า',
-    type: 'string',
-    headerClass: 'text-center',
-  },
   // {
-  //   field: '',
-  //   label: '-',
-  //   type: 'string',
-  //   headerClass: 'text-center',
-  // },
-  // {
-  //   field: 'status',
-  //   label: 'สถานะ',
+  //   field: 'licenseNo',
+  //   label: 'ชื่อยา',
   //   type: 'string',
   //   headerClass: 'text-center',
   // },
@@ -90,16 +78,12 @@ const tableFields = ref([
 
 async function getDataList() {
   appStore.isLoading.value = true;
-  const response = await useHttpService().get<ImporttationDrugResponseModel[]>('/api/importation-drug-req/list');
+  const response = await useHttpService().get<ImporttationDrugResponseModel[]>('/api/importation-drug-mat-req/list');
   appStore.isLoading.value = false;
   return {
     data: response.entity,
+    // data: response.entity.map((v) => ({ ...v, details: [] })),
   };
-  // [
-  //   { taskId: '123456', type: 'ยา', status: 'waiting_for_approve', updatedDate: new Date(2024, 2, 17) },
-  //   { taskId: '789012', type: 'วัตถุดิบยา', status: 'approved', updatedDate: new Date(2024, 2, 18) },
-  //   { taskId: '135790', type: 'วัตถุดิบยา', status: 'rejected', updatedDate: new Date(2024, 2, 19) },
-  // ],
 }
 
 async function onAction(data: ImportationDragReqStatusModel) {
@@ -110,7 +94,7 @@ async function onAction(data: ImportationDragReqStatusModel) {
 </script>
 
 <template>
-  <PageLayout nameHeader="สถานะการขออนุมัติใบอนุญาต">
+  <PageLayout :nameHeader="$route.meta.title">
     <MyDataTable ref="mdt" :fields="tableFields" :searchFunction="getDataList">
       <Column header="สถานะ" bodyClass="text-center" headerClass="text-center" style="width: 20rem">
         <template #body="{ data }">
@@ -133,10 +117,24 @@ async function onAction(data: ImportationDragReqStatusModel) {
         </template>
       </Column>
 
-      <Column header="เลขที่ใบอนุญาต" bodyClass="text-center" headerClass="text-center" style="width: 20rem">
+      <Column header="เลขที่ใบอนุญาต" bodyClass="text-center" headerClass="text-center">
         <template #body="{ data }">
-          <div v-tooltip.top="data.licenseNo">
-            {{ ellipsis(data.licenseNo) ?? '-' }}
+          <div class="flex justify-content-center align-items-center gap-3">
+            <div
+              v-if="data.importationDrugsId"
+              class="flex justify-content-center align-items-center"
+              style="color: green"
+            >
+              <i class="mdi mdi-check-circle-outline" style="font-size: 30px" v-tooltip.top="'พบใบอนุญาต'" />
+              &nbsp;&nbsp;
+              <!-- <strong><u>พบใบอนุญาต</u></strong> -->
+            </div>
+            <div v-else style="color: red" class="flex justify-content-center align-items-center">
+              <i class="mdi mdi-close-circle-outline" style="font-size: 30px" v-tooltip.top="'ไม่พบใบอนุญาต'" />
+              &nbsp;&nbsp;
+              <!-- <strong><u>ไม่พบใบอนุญาต</u></strong> -->
+            </div>
+            <span v-tooltip.top="data.licenseNo">{{ data.licenseNo || '-' }}</span>
           </div>
         </template>
       </Column>
@@ -176,8 +174,20 @@ async function onAction(data: ImportationDragReqStatusModel) {
         <div class="md:col-2">
           <label class="font-bold text-lg">เลขที่ใบอนุญาต : &nbsp;</label>
         </div>
-        <div class="col-auto text-lg">
+        <div class="col-auto text-lg flex align-items-center gap-3">
           <span>{{ dataModal!.licenseNo || '-' }}</span>
+          <div
+            v-if="dataModal!.importationDrugsId"
+            class="flex justify-content-center align-items-center"
+            style="color: green"
+          >
+            <i class="mdi mdi-check-circle-outline" style="font-size: 30px" /> &nbsp;&nbsp;
+            <strong><u>พบใบอนุญาต</u></strong>
+          </div>
+          <div v-else style="color: red" class="flex justify-content-center align-items-center">
+            <i class="mdi mdi-close-circle-outline" style="font-size: 30px" /> &nbsp;&nbsp;
+            <strong><u>ไม่พบใบอนุญาต</u></strong>
+          </div>
         </div>
       </div>
 
@@ -203,13 +213,6 @@ async function onAction(data: ImportationDragReqStatusModel) {
           >
           </Tag>
           &nbsp;
-          <!-- <div v-if="dataModal!.status === 'waiting_for_approve'" style="margin-top: 8px; font-size: 14px">
-            {{
-              dataModal!.importationDrugReqStates[dataModal!.importationDrugReqStates.length - 1].state === 'submitted'
-                ? '(อย.)'
-                : '(กรมสรรพสามิต)'
-            }}
-          </div> -->
         </div>
       </div>
 
@@ -231,8 +234,45 @@ async function onAction(data: ImportationDragReqStatusModel) {
         </div>
       </div>
 
+      <div class="block md:flex align-items-center" v-if="dataModal!.details.length > 0">
+        <div class="md:col-3">
+          <label class="text-lg font-bold">วัตถุดิบยา : &nbsp;</label>
+        </div>
+      </div>
+
+      <DataTable
+        :value="dataModal!.details"
+        class="shadow-4 mb-4"
+        showGridlines
+        stripedRows
+        v-if="dataModal!.details.length > 0"
+      >
+        <Column header="#" headerStyle="width:3em" headerClass="text-center" bodyClass="text-center">
+          <template #body="{ index }">
+            {{ index + 1 }}
+          </template>
+        </Column>
+        <Column field="materialName" header="ชื่อวัตถุดิบยา" bodyClass="text-center" headerClass="text-center"></Column>
+        <Column field="materialAmount" header="จำนวน" bodyClass="text-center" headerClass="text-center">
+          <template #body="{ data }">
+            {{ numberWithComma(String(data.materialAmount)) }}
+          </template>
+        </Column>
+        <Column field="materialUnit" header="หน่วย" bodyClass="text-center" headerClass="text-center"> </Column>
+
+        <template #empty>
+          <div>ไม่พบข้อมูล</div>
+        </template>
+      </DataTable>
+
+      <div v-else class="text-center">
+        <Divider />
+        ไม่พบวัตถุดิบยา
+      </div>
+
       <div class="card mt-4">
-        <Timeline :value="dataModal?.importationDrugReqStates" align="alternate" class="customized-timeline">
+        <Divider />
+        <Timeline :value="dataModal?.states" align="alternate" class="customized-timeline">
           <template #marker="{ item }">
             <i
               :class="MapStatus[item.state === 'completed' ? `${item.state}_${dataModal?.status}` : item.state].icon"
@@ -241,8 +281,9 @@ async function onAction(data: ImportationDragReqStatusModel) {
               }"
             ></i>
           </template>
-          <template #content="{ item }">
+          <template #content="{ item, index }">
             <div class="font-semibold">
+              {{ dataModal!.states.length - 1 === index ? '&rarr;' : '' }}
               {{ MapStatus[item.state === 'completed' ? `${item.state}_${dataModal?.status}` : item.state].title }}
             </div>
             <div class="text-sm my-1">

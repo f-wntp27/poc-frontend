@@ -11,6 +11,10 @@ const props = defineProps({
     type: String,
     default: '',
   },
+  showHeader: {
+    type: Boolean,
+    default: true,
+  },
   onBeforeMounted: { type: Function, required: false },
 });
 const isLoading = ref(true);
@@ -36,7 +40,7 @@ onBeforeMount(async () => {
 <template>
   <Loading :show="isLoading" />
   <div class="p-4">
-    <div class="text-left mb-5">
+    <div class="text-left mb-5" v-if="props.showHeader">
       <span class="text-900 text-2xl font-medium my-3 header-layout shadow-4">{{ props.nameHeader }}</span>
     </div>
     <slot />

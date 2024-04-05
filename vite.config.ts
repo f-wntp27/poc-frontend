@@ -24,13 +24,13 @@ export default defineConfig(({ mode }) => {
     },
     server: {
       host: true,
-      proxy: {
-        '/api': {
-          target: `${env.VITE_API_URL}/api`,
-          changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/api/, ''),
-        },
-      },
+      // proxy: {
+      //   '/api': {
+      //     target: `${env.VITE_API_URL}/api`,
+      //     changeOrigin: true,
+      //     rewrite: (path) => path.replace(/^\/api/, ''),
+      //   },
+      // },
     },
   };
 });

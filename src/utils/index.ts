@@ -39,19 +39,6 @@ export const parseJwt = (token: string) => {
   return JSON.parse(jsonPayload);
 };
 
-export const convertToBase64 = (file: File) => {
-  return new Promise<string>((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => {
-      resolve(reader.result?.toString() ?? '');
-    };
-    reader.onerror = (error) => {
-      reject(error);
-    };
-  });
-};
-
 export const numberWithComma = (value: string | number, digits = 2, isnull = 0) => {
   if (isNaN(Number(value)) || value === null) return isnull !== 0 ? isnull : isnull.toFixed(digits);
   else
@@ -123,4 +110,17 @@ export function ellipsis(text: string, wordDigit = 30) {
     return;
   }
   return text.length > wordDigit ? text.slice(0, wordDigit).concat('...') : text;
+}
+
+export function convertToBase64(file: File) {
+  return new Promise<string>((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      resolve(reader.result?.toString() ?? '');
+    };
+    reader.onerror = (error) => {
+      reject(error);
+    };
+  });
 }

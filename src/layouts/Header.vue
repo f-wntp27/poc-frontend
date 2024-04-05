@@ -1,33 +1,49 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import Sidebar from './Sidebar.vue';
-import { useRoute, useRouter } from 'vue-router';
+import { useRouter } from 'vue-router';
 import defaultAvatar from '@/assets/images/default-avatar.png';
 import thaiFlag from '@/assets/flag/th-TH.svg';
 import engFlag from '@/assets/flag/en-US.svg';
 import { useAppStore } from '@/stores/app.store';
+import { useUserStore } from '@/stores/user.store';
 
 const router = useRouter();
 const appStore = useAppStore();
+const userStore = useUserStore();
 const userProfile = ref();
+const username = ref('อย.');
 const locale = ref();
 const items = ref([
-  { label: 'โปรไฟล์', icon: 'mdi mdi-account' },
-  // { separator: true },
-  {
-    label: 'ออกจากระบบ',
-    icon: 'pi pi-fw pi-power-off',
-    command: () => onLogout(),
-  },
+  { label: 'อย.', icon: 'mdi mdi-account', command: () => onSelect('fda') },
+  { label: 'สำนักงานปรมาณูเพื่อสันติ', icon: 'mdi mdi-account', command: () => onSelect('oap') },
+  { label: 'กระทรวงพาณิชย์', icon: 'mdi mdi-account', command: () => onSelect('moc') },
+  // { label: 'โปรไฟล์', icon: 'mdi mdi-account' },
+  // // { separator: true },
+  // {
+  //   label: 'ออกจากระบบ',
+  //   icon: 'pi pi-fw pi-power-off',
+  //   command: () => onLogout(),
+  // },
 ]);
+
+const mapUser: { [key: string]: string } = {
+  fda: 'อย.',
+  moc: 'กระทรวงพาณิชย์',
+  oap: 'สำนักงานปรมาณูเพื่อสันติ',
+};
 
 const localteList = appStore.listLocale.map((v) => ({
   label: v,
 }));
 
-function onLogout() {
-  router.push({ name: 'login' });
+async function onSelect(username: string) {
+  userStore.changeUserName(username);
+  await appStore.preLoading(400);
 }
+// function onLogout() {
+//   router.push({ name: 'login' });
+// }
 
 const toggle = (event: MouseEvent) => {
   userProfile.value.toggle(event);
@@ -41,7 +57,7 @@ const toggle = (event: MouseEvent) => {
         <div class="flex align-items-center">
           <Sidebar />
         </div>
-        <div class="d-flex align-items-center ml-4 font-bold text-xl">{{ `POC - ${useRoute().meta.title}` }}</div>
+        <div class="d-flex align-items-center ml-4 font-bold text-xl">{{ `POC - ${$route.meta.title}` }}</div>
       </div>
     </template>
 
@@ -60,9 +76,9 @@ const toggle = (event: MouseEvent) => {
           </template>
         </Menu>
       </div>
-      &nbsp; &nbsp; 
+      &nbsp; &nbsp; -->
 
-      <span class="text-lg pr-4"> Anonymous </span>
+      <span class="text-lg pr-4"><i class="mdi mdi-account" /> {{ mapUser[userStore.getUsername.value] }} </span>
 
       <div class="flex justify-content-center">
         <Avatar
@@ -75,7 +91,7 @@ const toggle = (event: MouseEvent) => {
         />
 
         <Menu ref="userProfile" :model="items" :popup="true" class="mt-1 shadow-4" />
-      </div>-->
+      </div>
     </template>
   </Toolbar>
 </template>

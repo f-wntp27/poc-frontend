@@ -1,11 +1,27 @@
-export type ImporttationDrugResquestModel = {
+export type DrugModel = {
   drugName: string;
   drugIngredients: string;
-  drugPrice: number;
+  drugPrice: number | null;
   drugUnit: string;
 };
 
-export type ImporttationDrugResponseModel = {
+export type MedicalTool = {
+  toolName: string;
+  toolBrand: string;
+  toolAmount: number | null;
+  toolAmountUnit: string;
+  toolPrice: number | null;
+};
+
+export type ImportationLicenseResquestModel = {
+  email: string;
+  processDefKey: string;
+  // drugResquest: DrugModel;
+  // medicalToolRequest: MedicalTool;
+  document: File[];
+};
+
+export type ImportationDrugResponseModel = {
   drugName?: string;
   drugIngredients?: string;
   drugPrice: number;
@@ -24,4 +40,4 @@ export type FileModel = {
 export type ImporttationDrugExciseResponseModel = {
   files: FileModel[];
   fdaComment: string;
-} & ImporttationDrugResponseModel;
+} & ImportationDrugResponseModel;

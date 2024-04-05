@@ -8,7 +8,7 @@ export const useHttp = () => {
   const appStore = useAppStore();
 
   const http = axios.create({
-    baseURL: window.location.origin, //import.meta.env.VITE_API_URL,
+    baseURL: import.meta.env.VITE_API_URL, //window.location.origin,
     timeout: 30000,
   });
 

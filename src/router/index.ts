@@ -7,12 +7,12 @@ const router = createRouter({
       path: '/',
       component: () => import('../layouts/AppLayout.vue'),
       children: [
-        {
-          path: '/',
-          name: 'home',
-          meta: { title: 'หน้าแรก', icon: 'pi pi-home' },
-          component: () => import('../views/Index.vue'),
-        },
+        // {
+        //   path: '/',
+        //   name: 'home',
+        //   meta: { title: 'หน้าแรก', icon: 'pi pi-home' },
+        //   component: () => import('../views/Index.vue'),
+        // },
         {
           path: 'importation-license',
           name: 'importation-license',

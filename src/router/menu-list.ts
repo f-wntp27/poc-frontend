@@ -6,11 +6,11 @@ interface MenuModel {
 }
 
 export const menuList: MenuModel[] = [
-  {
-    label: 'หน้าแรก',
-    icon: 'pi pi-home',
-    path: '/',
-  },
+  // {
+  //   label: 'หน้าแรก',
+  //   icon: 'pi pi-home',
+  //   path: '/',
+  // },
   {
     label: 'ขอใบอนุญาตนำเข้า',
     icon: 'mdi mdi-list-box-outline',

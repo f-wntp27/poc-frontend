@@ -22,5 +22,14 @@ export const useHttpService = () => {
     });
   }
 
-  return { get, post };
+  async function download(url: string, config?: AxiosRequestConfig): Promise<Blob> {
+    return http.request({
+      method: 'GET',
+      url: url,
+      responseType: 'blob',
+      ...config,
+    });
+  }
+
+  return { get, post, download };
 };

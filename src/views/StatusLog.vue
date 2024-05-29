@@ -95,6 +95,18 @@ async function onAction(data: LicenseRequestStatusLogsModel) {
   visible.value = true;
   await appStore.preLoading(200);
 }
+
+async function onDownload(data: LicenseRequestStatusLogsModel) {
+  appStore.isLoading.value = true;
+  const id = data.requestId;
+  const response = await useHttpService().download(`/api/license-request/export/${id}`);
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(response);
+  link.download = `${id}.xml`;
+  link.click();
+  URL.revokeObjectURL(link.href);
+  appStore.isLoading.value = false;
+}
 </script>
 
 <template>
@@ -123,6 +135,13 @@ async function onAction(data: LicenseRequestStatusLogsModel) {
 
       <Column header="แอคชั่น" bodyClass="text-center" headerClass="text-center" style="width: 20rem">
         <template #body="slotProps">
+          <Button
+            icon="mdi mdi-file-outline"
+            class="p-button-sm ms-2 shadow-4 border-round-xl bg-yellow-600"
+            @click="onDownload(slotProps.data)"
+            label=""
+            v-tooltip.top="'ดาวน์โหลด .xml'"
+          />
           <Button
             icon="mdi mdi-eye-outline"
             class="p-button-sm ms-2 shadow-4 border-round-xl"

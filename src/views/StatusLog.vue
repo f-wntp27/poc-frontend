@@ -137,7 +137,8 @@ async function onDownload(data: LicenseRequestStatusLogsModel) {
         <template #body="slotProps">
           <Button
             icon="mdi mdi-file-outline"
-            class="p-button-sm ms-2 shadow-4 border-round-xl bg-yellow-600"
+            severity="warning"
+            class="p-button-sm mr-2 shadow-4 border-round-xl bg-yellow-600"
             @click="onDownload(slotProps.data)"
             label=""
             v-tooltip.top="'ดาวน์โหลด .xml'"
